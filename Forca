@@ -1,0 +1,66 @@
+from random import choice
+
+def palavra():
+  animal = ['PATO','GATO','BALEIA']
+  fruta = ['BANANA','LIMAO','MANGA']
+  objeto = ['DADO','CANETA', 'PINCEL']
+  lista = animal,fruta,objeto
+  return lista
+
+def dica():
+  if sorteio == 0:
+      print('\nDICA: A palavra é um(a): ANIMAL\n')
+  elif sorteio == 1:
+      print('\nDICA: A palavra é um(a): FRUTA\n')
+  else:
+      print('\nDICA: A palavra é um(a): OBJETO\n')
+      
+        
+def imprimePalavras():
+    for i in range(len(escolhe)):
+      if (user == escolhe[i]):
+        print(user)
+        
+        
+#Programa Principal
+print('='*50)
+print('{:^50}'.format('JOGO DA FORCA'))
+print('='*50)
+print('Tente descobrir qual a palavra !!\n')
+
+
+#sorteio - está recebendo o resultado da escolha de choice
+#choice - está escolhendo o que está retornando da função palavra()
+sorteio = choice(palavra())
+
+#escolhe - está recebendo o resultado da escolha de choice
+#choice - está escolhendo o que está dentro da variavel sorteio
+escolhe = choice(sorteio)
+
+
+cont = 6
+print('A palavra tem {} letras.\n'.format(len(escolhe)))
+while True:
+  user = str(input('Letra: ')).upper()
+  
+  if (user == 'DICA'):
+      print(dica())
+      
+  elif (user in escolhe):
+      print('='*15)
+      print('Tem {}'.format(imprimePalavras()))
+      print('='*15)
+      
+      if (palavra == escolhe):
+          print('Você GANHOU !!\nA palavra era: {}'.format(escolhe))
+          break
+        
+  else:
+      cont -= 1
+      print('\nVocê ainda tem {} tentativas !\n'.format(cont))
+      
+  if cont == 0:
+      print('\n\nVocê PERDEU!')
+      print('\nA palavra era: {}\n\n'.format(escolhe))
+      break
+      
