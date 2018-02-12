@@ -31,11 +31,6 @@ def imprimeChutes(str_chutes):
     print("%c"%s, end=" ")
 
   print("")
-        
-def imprimePalavras():
-    for i in range(len(escolhe)):
-      if (user == escolhe[i]):
-        print(user)
 
 def atualizaForca(chute, oldForca, palavra):
   newForca = str()
