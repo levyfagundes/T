@@ -1,26 +1,53 @@
+# -*- coding: utf-8 -*-
+
 from random import choice
 
-def palavra():
+#gera a palavra a partir da categoria escolhida
+def gera_palavra(idx):
+
   animal = ['PATO','GATO','BALEIA']
   fruta = ['BANANA','LIMAO','MANGA']
   objeto = ['DADO','CANETA', 'PINCEL']
-  lista = animal,fruta,objeto
-  return lista
 
-def dica():
+  lista = animal,fruta,objeto
+
+  palavra = choice(lista[idx])
+
+  return palavra
+
+#exibe a dica da palavra na tela
+def dica(sorteio):
   if sorteio == 0:
-      print('\nDICA: A palavra é um(a): ANIMAL\n')
+    print('\nDICA: A palavra e um(a): ANIMAL\n')
   elif sorteio == 1:
-      print('\nDICA: A palavra é um(a): FRUTA\n')
+    print('\nDICA: A palavra e um(a): FRUTA\n')
   else:
-      print('\nDICA: A palavra é um(a): OBJETO\n')
+    print('\nDICA: A palavra e um(a): OBJETO\n')
       
+#imprime a string com as palavras que o jogador chutou      
+def imprimeChutes(str_chutes):
+  print("Chutes:", end=" ")
+  for s in str_chutes:
+    print("%c"%s, end=" ")
+
+  print("")
         
 def imprimePalavras():
     for i in range(len(escolhe)):
       if (user == escolhe[i]):
         print(user)
-        
+
+def atualizaForca(chute, oldForca, palavra):
+  newForca = str()
+
+  for j in range(len(oldForca)):
+
+    if(chute == palavra[j]):
+      newForca += chute
+    else:
+      newForca += oldForca[j]
+
+  return newForca
         
 #Programa Principal
 print('='*50)
@@ -28,39 +55,59 @@ print('{:^50}'.format('JOGO DA FORCA'))
 print('='*50)
 print('Tente descobrir qual a palavra !!\n')
 
+num = choice([0,1,2]) #escolhe em qual categoria a palavra será gerada
 
-#sorteio - está recebendo o resultado da escolha de choice
-#choice - está escolhendo o que está retornando da função palavra()
-sorteio = choice(palavra())
+escolhe = gera_palavra(num) #palavra que foi gerada para o jogo
+tam_palavra = len(escolhe)  #tamanho da palavra que foi gerada para o jogo
 
-#escolhe - está recebendo o resultado da escolha de choice
-#choice - está escolhendo o que está dentro da variavel sorteio
-escolhe = choice(sorteio)
+saida = "_"*(tam_palavra) #irá guardar a string que aparece as letras que o jogador acertou
+chutes_letras = str() #armazena as letras que o jogador chutou
 
+tentativas = 6 #quantidade de tentativas que o jogador tem
+i=0
 
-cont = 6
-print('A palavra tem {} letras.\n'.format(len(escolhe)))
-while True:
-  user = str(input('Letra: ')).upper()
+dica(num)
+print('A palavra tem {} letras.\n'.format(tam_palavra))
+print(saida)
+
+while(i<tentativas):
+
+  print('\nVocê ainda tem {} tentativas !\n'.format(tentativas - i))
+
+  chute = input('\nLetra: ').upper()
+
+  aux = str()
+
+  if ( (chute in chutes_letras) or (chute in saida) ):
+    print("Você já escolheu essa letra, tente de novo")
   
-  if (user == 'DICA'):
-      print(dica())
-      
-  elif (user in escolhe):
-      print('='*15)
-      print('Tem {}'.format(imprimePalavras()))
-      print('='*15)
-      
-      if (palavra == escolhe):
-          print('Você GANHOU !!\nA palavra era: {}'.format(escolhe))
-          break
-        
   else:
-      cont -= 1
-      print('\nVocê ainda tem {} tentativas !\n'.format(cont))
-      
-  if cont == 0:
-      print('\n\nVocê PERDEU!')
-      print('\nA palavra era: {}\n\n'.format(escolhe))
+    i+=1
+
+    if(chute in escolhe):
+    #   for j in range(tam_palavra):
+    #     if(chute == escolhe[j]):
+    #       aux += chute
+    #       acertos+=1
+    #     else:
+    #       aux += saida[j]
+
+      saida = atualizaForca(chute, saida, escolhe)
+
+    else:
+      print("Não existe a letra", chute)
+      chutes_letras+=chute
+
+
+    imprimeChutes(chutes_letras)
+    print(saida)
+
+    if(saida == escolhe):
+      print('Você GANHOU !!\nA palavra era: {}'.format(escolhe))
       break
-      
+
+if(saida != escolhe):
+  print('\n\nVocê PERDEU!')
+  print('\nA palavra era: {}\n\n'.format(escolhe))
+  
+  
