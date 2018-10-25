@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+
+#arquivo main.js ignorado
+main.js
+
